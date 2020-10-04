@@ -1,26 +1,46 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
+import './App.scss';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import Stepper from './Stepper/Stepper';
+
+class App extends Component {
+constructor(){
+  super();
+  this.state = {
+    currentStep : 1
+  }
+}
+
+handleClick = (clickType) => { 
+  const {currentStep} = this.state;
+  let newStep = currentStep;
+  clickType === "next" ? newStep++ : newStep--
+
+  this.setState({currentStep : newStep});
+}
+
+  render() {
+    const stepsArray = ["Basic",
+                        "Ticket",
+                        "Calender",
+                        "Coupon",
+                        "Staff Member","Cancel booking"];
+
+    const {currentStep} = this.state;
+
+    return (
+      <>
+        <div className="stepper-container-horizontal">
+          <Stepper steps={stepsArray} currentStepNumber={currentStep}/>
+        </div>
+        <div className="button-container">
+          <button onClick={() => this.handleClick()}>Previous</button>
+          <button onClick={() => this.handleClick("next")}>Next</button>
+        </div>
+      </>
+    );
+  }
 }
 
 export default App;
+
